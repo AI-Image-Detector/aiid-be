@@ -11,7 +11,7 @@ def get_model():
 	# model.load_state_dict(torch.load(checkpoint_path,map_location='cpu'),strict=False)
 	# model.eval()
 
-	checkpoint_path='pt.pt'
+	checkpoint_path='./model/pt.pt'
 	model = models.resnet50(pretrained=False)
 	for param in model.parameters():
 		param.requires_grad=True
