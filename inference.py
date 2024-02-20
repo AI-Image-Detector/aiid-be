@@ -1,8 +1,9 @@
-import json
 import torch
 from commons import get_model,get_tensor
+
 classes = ['ai', 'nature']
 model=get_model()
+
 def get_flower_name(image_bytes):
     tensor=get_tensor(image_bytes)
     model.eval()

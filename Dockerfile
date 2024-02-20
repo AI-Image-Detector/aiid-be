@@ -1,13 +1,15 @@
 FROM python:3.10-slim
 
+ENV VIRTUAL_ENV=env_model
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PORT=8000
+
 WORKDIR /app
 
-COPY requirements.txt .
-
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m venv $VIRTUAL_ENV
 
 COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE $PORT
 
-EXPOSE 5000
-
-CMD ["flask", "--app", "flaskr", "run", "--debug"] 
+CMD exec gunicorn --bind :$PORT --workers 2 --threads 8 --timeout 0 '__init__:create_app()'

@@ -1,8 +1,8 @@
 import os
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from PIL import Image
+
+from inference import get_flower_name, get_probability
 
 def create_app(test_config=None):
     # create and configure the app
@@ -37,33 +37,11 @@ def create_app(test_config=None):
     # predict endpoint
     @app.route('/predict', methods=['POST'])
     def predict():
-        # check if the post request has the file part
-        # if 'file' not in request.files:
-        #     return {"error": "No file part in the request"}
-
-        # # check file extensions
-        # def allowed_file(filename):
-        #     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg'}
-        
-        # file = request.files['file']
-        # if file.filename == '':
-        #     return {"error": "No file selected"}
-        # if not allowed_file(file.filename):
-        #     return {"error": "Invalid file extension"}
-        
-        # # read the image file
-        # image = Image.open(file)
-
-        # preprocess the image
-    
-        # make prediction
-
-        # return the prediction
-
-        if request.method == 'POST':
-            data = request.get_json()
-            return {"prediction": data.get('image')}
-        else:
-            return {"message":"This is a prediction endpoint."}
+        if request.method=='POST':
+            file=request.files['file']
+            image=file.read()
+            flower_name=get_flower_name(image_bytes=image)
+            probabilities=get_probability(image_bytes=image)
+            # return render_template('result.html',flower=flower_name,prob=probabilities)
 
     return app
