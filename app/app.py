@@ -85,7 +85,7 @@ def get_model():
 
 def read_file(file):
     try:
-        image = Image.open(io.BytesIO(file.read()))
+        image = Image.open(io.BytesIO(file.read())).convert('RGB')
         return image
     except Exception as e:
         return {'error': 'Unable to read the image',
