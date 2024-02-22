@@ -49,9 +49,9 @@ def create_app(test_config=None):
             image = read_file(file)
             tensor = to_tensor(image)
 
-            time_start = time.time()
+            time_start = time.monotonic()
             predicted_class, probability = do_predict(tensor)
-            time_end = time.time()
+            time_end = time.monotonic()
 
             return {'predicted_class':predicted_class,
                     'probability':probability,
